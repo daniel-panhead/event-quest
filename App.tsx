@@ -6,6 +6,7 @@
  */
 
 import React, {useEffect} from 'react';
+import { printData } from './DataApi';
 import Map from './Map';
 import type {PropsWithChildren} from 'react';
 import {
@@ -58,6 +59,10 @@ function Section({children, title}: SectionProps): JSX.Element {
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
+
+  useEffect(() => {
+    printData(); 
+  },[])
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,

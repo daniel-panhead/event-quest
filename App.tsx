@@ -5,7 +5,7 @@
  * @format
  */
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import Map from './Map';
 import type {PropsWithChildren} from 'react';
 import {
@@ -25,6 +25,7 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import {load} from './mapLoader';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -62,6 +63,13 @@ function App(): JSX.Element {
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
+
+  useEffect(() => {
+    const asyncLoad = async () => {
+      await load();
+    };
+    asyncLoad();
+  }, []);
 
   return (
     <Map />

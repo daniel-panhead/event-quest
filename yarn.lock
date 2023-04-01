@@ -1099,6 +1099,13 @@
   "resolved" "https://registry.npmjs.org/@eslint/js/-/js-8.37.0.tgz"
   "version" "8.37.0"
 
+"@googlemaps/js-api-loader@^1.15.1":
+  "integrity" "sha512-AsnEgNsB7S/VdrHGEQUaUM2e5tmjFGKBAfzR/AqO8O7TPq/jQGvoRw5liPBw4EMF38RDsHmKDV89q/X+qiUREQ=="
+  "resolved" "https://registry.npmjs.org/@googlemaps/js-api-loader/-/js-api-loader-1.15.1.tgz"
+  "version" "1.15.1"
+  dependencies:
+    "fast-deep-equal" "^3.1.3"
+
 "@hapi/hoek@^9.0.0":
   "integrity" "sha512-/c6rf4UJlmHlC9b5BaNvzAcFv7HZ2QHaV0D4/HNlBdvFnvQq8RI4kYdhyPCl7Xj+oWvTWQ8ujhqS53LIgAe6KQ=="
   "resolved" "https://registry.npmjs.org/@hapi/hoek/-/hoek-9.3.0.tgz"
@@ -1723,6 +1730,11 @@
   "resolved" "https://registry.npmjs.org/@types/geojson/-/geojson-7946.0.10.tgz"
   "version" "7946.0.10"
 
+"@types/google.maps@^3.52.4":
+  "integrity" "sha512-FXtZsLDX7fbxJ03zbze3MdUjaH4Y/zRmW8O65LNIWEHJ7RqddrabusRm/U3zF1ifmqe8y4oPqBvs+vBG8kv0yQ=="
+  "resolved" "https://registry.npmjs.org/@types/google.maps/-/google.maps-3.52.4.tgz"
+  "version" "3.52.4"
+
 "@types/graceful-fs@^4.1.3":
   "integrity" "sha512-Sig0SNORX9fdW+bQuTEovKj3uHcUL6LQKbCrrqb1X7J6/ReAbhCXRAhc+SMejhLELFj2QcyuxmUooZ4bt5ReSw=="
   "resolved" "https://registry.npmjs.org/@types/graceful-fs/-/graceful-fs-4.1.6.tgz"
@@ -1778,9 +1790,9 @@
   "version" "15.7.5"
 
 "@types/react-dom@^18.0.11":
-  version "18.0.11"
-  resolved "https://registry.npmjs.org/@types/react-dom/-/react-dom-18.0.11.tgz"
-  integrity sha512-O38bPbI2CWtgw/OoQoY+BRelw7uysmXbWvw3nLWO21H1HSh+GOlqPuXshJfjmpNlKiiSDG9cc1JZAaMmVdcTlw==
+  "integrity" "sha512-O38bPbI2CWtgw/OoQoY+BRelw7uysmXbWvw3nLWO21H1HSh+GOlqPuXshJfjmpNlKiiSDG9cc1JZAaMmVdcTlw=="
+  "resolved" "https://registry.npmjs.org/@types/react-dom/-/react-dom-18.0.11.tgz"
+  "version" "18.0.11"
   dependencies:
     "@types/react" "*"
 
@@ -1791,7 +1803,7 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^18.0.24":
+"@types/react@*", "@types/react@^18.0.31":
   "integrity" "sha512-EEG67of7DsvRDU6BLLI0p+k1GojDLz9+lZsnCpCRTa/lOokvyPBvp8S5x+A24hME3yyQuIipcP70KJ6H7Qupww=="
   "resolved" "https://registry.npmjs.org/@types/react/-/react-18.0.31.tgz"
   "version" "18.0.31"
@@ -5776,6 +5788,14 @@
     "shell-quote" "^1.6.1"
     "ws" "^7"
 
+"react-dom@^18.2.0":
+  "integrity" "sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g=="
+  "resolved" "https://registry.npmjs.org/react-dom/-/react-dom-18.2.0.tgz"
+  "version" "18.2.0"
+  dependencies:
+    "loose-envify" "^1.1.0"
+    "scheduler" "^0.23.0"
+
 "react-is@^16.12.0 || ^17.0.0 || ^18.0.0", "react-is@^18.0.0", "react-is@^18.2.0":
   "integrity" "sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w=="
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-18.2.0.tgz"
@@ -5805,6 +5825,11 @@
   "integrity" "sha512-slecooA/0tCwhb+RuWEbwLqtKirGh9vWPRpgDfH7uPAraCciqHNH2XjS9ylW+Spn4FUrHg5KWTqUGs9BdBADHg=="
   "resolved" "https://registry.npmjs.org/react-native-config/-/react-native-config-1.5.0.tgz"
   "version" "1.5.0"
+
+"react-native-geocoding@^0.5.0":
+  "integrity" "sha512-peTXRpRxPLiZpbTW43AOvoXXAEoS+eLnSo4KRY0hcL9F2hulWE5r7o5KiaLx8AWj35c6EJP3fdGHe754q2Gd2Q=="
+  "resolved" "https://registry.npmjs.org/react-native-geocoding/-/react-native-geocoding-0.5.0.tgz"
+  "version" "0.5.0"
 
 "react-native-gradle-plugin@^0.71.17":
   "integrity" "sha512-OXXYgpISEqERwjSlaCiaQY6cTY5CH6j73gdkWpK0hedxtiWMWgH+i5TOi4hIGYitm9kQBeyDu+wim9fA8ROFJA=="

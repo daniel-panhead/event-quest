@@ -25,7 +25,6 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-import {load} from './mapLoader';
 
 type SectionProps = PropsWithChildren<{
   title: string;

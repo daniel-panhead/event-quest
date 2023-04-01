@@ -10,10 +10,12 @@
     "test": "jest"
   },
   "dependencies": {
+    "@googlemaps/js-api-loader": "^1.15.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-native": "0.71.5",
     "react-native-config": "^1.5.0",
+    "react-native-geocoding": "^0.5.0",
     "react-native-maps": "^1.4.0"
   },
   "devDependencies": {
@@ -22,6 +24,7 @@
     "@babel/runtime": "^7.20.0",
     "@react-native-community/eslint-config": "^3.2.0",
     "@tsconfig/react-native": "^2.0.2",
+    "@types/google.maps": "^3.52.4",
     "@types/jest": "^29.2.1",
     "@types/react": "^18.0.31",
     "@types/react-dom": "^18.0.11",

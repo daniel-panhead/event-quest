@@ -19,8 +19,8 @@ export function SideButton(props: SideButtonInfo) {
     )
 }
 
-export function EventForm(props?: Entry) {
-    const initialState = {
+export function EventForm(props: Entry) {
+    const initialState = props === undefined ? {
         name : "",
         address: "",
         date: "",
@@ -31,7 +31,7 @@ export function EventForm(props?: Entry) {
         fees: 0.0,
         description: "",
         url: ""
-    }
+    } : props;
     const [formData, setFormData] = useState({
         ...initialState
     })
@@ -158,16 +158,16 @@ export function EventForm(props?: Entry) {
 }
 
 type Entry = {
-    name : String,
-    address: String,
-    date: String,
-    startTime: String,
-    endTime: String,
-    tags: String,
-    registration: String,
-    fees: number,
-    description: String,
-    url: String
+    name?: String,
+    address?: String,
+    date?: String,
+    startTime?: String,
+    endTime?: String,
+    tags?: String,
+    registration?: String,
+    fees?: number,
+    description?: String,
+    url?: String
 }
 
 function EventEntry(childProps: Event) {
@@ -190,8 +190,7 @@ function EventEntry(childProps: Event) {
     let entry: Entry = convertEventToEntry();
     const editEntry = () => {
         console.log("woohoo");
-        setFormVisibility(true);
-        // <EventForm {...entry}/>;
+        setView(<EventForm {...entry}/>);
     }
 
     return(
@@ -209,9 +208,9 @@ function EventEntry(childProps: Event) {
     )
 }
 
-let setFormVisibility: React.Dispatch<React.SetStateAction<boolean>>;
-export function ManagePanel(props: {setFormVisibility: React.Dispatch<React.SetStateAction<boolean>>}) {
-    setFormVisibility = props.setFormVisibility;
+let setView: React.Dispatch<React.SetStateAction<JSX.Element>>;
+export function ManagePanel(props: {setView: React.Dispatch<React.SetStateAction<JSX.Element>>}) {
+    setView = props.setView;
     console.log("begin mapping")
     return (
         <div className="manage-panel">

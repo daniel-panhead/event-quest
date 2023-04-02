@@ -3,7 +3,7 @@ import { getDatabase, onValue, ref, set, push, remove, child} from '@firebase/da
 import { Event } from './Types';
 
 const firebaseConfig = {
-    apiKey: "***REMOVED***",
+    apiKey: import.meta.env.VITE_API_URL,
     authDomain: "event-quest-87a10.firebaseapp.com",
     databaseURL: "https://event-quest-87a10-default-rtdb.firebaseio.com",
     projectId: "event-quest-87a10",

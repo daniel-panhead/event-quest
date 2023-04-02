@@ -4,7 +4,7 @@ import type {Event, ParsedEvent} from './types';
 const events: Event[] = [
   {
     organizer: 'BizTech',
-    address: '2053 Main Mall, Vancouver, BC V6T 1Z2',
+    address: 'Henry Angus Building',
     title: 'ProduHacks',
     startDateTime: '2023-04-01T09:30:00-08:00',
     endDateTime: '2023-04-02T17:00:00-08:00',
@@ -17,7 +17,7 @@ const events: Event[] = [
   },
   {
     organizer: 'Organizer Guys',
-    address: '2052 Main Mall, Vancouver, BC V6T 1Z2',
+    address: 'Martha Piper Plaza',
     title: 'Fun Event',
     startDateTime: '2023-04-01T09:30:00-08:00',
     endDateTime: '2023-04-01T012:30:00-08:00',

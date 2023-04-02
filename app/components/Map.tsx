@@ -3,7 +3,8 @@ import React, {useEffect, useState} from 'react';
 import MapView, {Marker, MarkerPressEvent} from 'react-native-maps';
 import type {Place} from '../types';
 import {dateToString} from '../data';
-import {getEvents} from '../mockData';
+import {getEvents} from '../DataApi';
+// import {getEvents} from '../mockData';
 import Overlay from './Overlay';
 import {getPlaceName} from '../mapLoader';
 
@@ -23,7 +24,6 @@ const Map = (props: Props) => {
   useEffect(() => {
     async function fetchData() {
       const response = await getEvents();
-
       let tmpPlaces: Place = {};
       for (let event of response) {
         const place = await getPlaceName(event.coords, event.address);
@@ -63,7 +63,10 @@ const Map = (props: Props) => {
       {places && (
         <>
           <View className="flex-1 items-center justify-end">
-            <MapView style={styles.map} initialRegion={initialRegion}>
+            <MapView
+              style={styles.map}
+              initialRegion={initialRegion}
+              toolbarEnabled={false}>
               {Object.keys(places).map((place: string, i) => {
                 return (
                   <Marker

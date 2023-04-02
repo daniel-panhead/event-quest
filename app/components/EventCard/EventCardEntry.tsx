@@ -1,4 +1,4 @@
-import {View, Text, Modal} from 'react-native';
+import {View} from 'react-native';
 import React, {useState} from 'react';
 import CompactEventCard from './CompactEventCard';
 import DetailedEventCard from './DetailedEventCard';
@@ -17,7 +17,7 @@ const EventCardEntry = ({event, i}: Props) => {
         <CompactEventCard event={event} i={i} setShowDetails={setShowDetails} />
       )}
       {showDetails && (
-        <View className="items-center justify-center">
+        <View className="items-center justify-center w-full p-1">
           <DetailedEventCard
             event={event}
             i={i}

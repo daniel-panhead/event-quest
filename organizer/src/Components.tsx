@@ -1,4 +1,5 @@
 import React, { SyntheticEvent, useState } from "react";
+import { writeData, hello} from './DataApi'
 
 export function Header() {
     return(
@@ -24,7 +25,7 @@ export function EventForm() {
         startTime: "",
         endTime: "",
         tags: "",
-        registration: "",
+        registration: "yes",
         fees: 0.0,
         description: "",
         url: ""
@@ -36,15 +37,33 @@ export function EventForm() {
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
         const {name, value} = event.target;
+        console.log(value);
         setFormData((prevData) => ({...prevData, [name] : value}));
+    }
+
+    const convertToEvent = () => {
+        return {
+            organizer : "Test Organizer",
+            address: formData.address,
+            title: formData.name,
+            startDateTime: formData.date + "T" + formData.startTime + "-08:00",
+            endDateTime: formData.date + "T" + formData.endTime + "-08:00",
+            description: formData.description,
+            mustRegister: formData.registration.toLowerCase() == "yes",
+            price: formData.fees,
+            type: formData.tags,
+            url: formData.url
+        }
     }
 
     const handleSubmit = (event: any) => {
         event.preventDefault();
         if (checkFormData()) {
             console.log(formData);
+            writeData(convertToEvent());
             setFormError((prevData) => ({msg : null}));
         } else {
+            console.log(formData);
             setFormError((prevData) => ({msg : "Cannot leave the field blank"}));
         }
     }
@@ -101,10 +120,13 @@ export function EventForm() {
                 <label htmlFor="registration">Registration Required:</label>
                 <div id="registration" className="registration-options">
                     <label htmlFor="yes">Yes</label>
-                    <input type="radio" id="yes" name="registration" value="yes" onChange={handleChange} checked/>
+                    <input type="radio" id="yes" name="registration" value="yes" onChange={handleChange} 
+                        checked={formData.registration === "yes"}/>
 
                     <label htmlFor="no">No</label>
-                    <input type="radio" id="no" name="registration" value="no" onChange={handleChange}/>
+                    <input type="radio" id="no" name="registration" value="no" onChange={handleChange}
+                        checked={formData.registration === "no"}/>
+
                 </div>
             </div>
 

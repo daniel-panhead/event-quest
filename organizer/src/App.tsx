@@ -9,7 +9,7 @@ function App() {
     if (formVisibility) {
       return <EventForm/>;
     }
-    return <ManagePanel/>;
+    return <ManagePanel setFormVisibility={setFormVisibility}/>;
   }
 
   return (

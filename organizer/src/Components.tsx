@@ -169,24 +169,31 @@ type Entry = {
     description: String,
     url: String
 }
-function EventEntry(props: Event) {
+
+function EventEntry(childProps: Event) {
     const convertEventToEntry = (): Entry => {
-        let dateAndStart = new Date(props.startDateTime);
-        let dateAndEnd = new Date(props.endDateTime);
+        let dateAndStart = new Date(childProps.startDateTime);
+        let dateAndEnd = new Date(childProps.endDateTime);
         return {
-            name: props.title,
-            address: props.address,
+            name: childProps.title,
+            address: childProps.address,
             date: dateAndStart.toDateString(),
             startTime: dateAndStart.toLocaleTimeString(),
             endTime: dateAndEnd.toLocaleTimeString(),
-            tags: props.type,
-            registration: props.mustRegister ? "yes" : "no",
-            fees: props.price,
-            description: props.description,
-            url: props.url,
+            tags: childProps.type,
+            registration: childProps.mustRegister ? "yes" : "no",
+            fees: childProps.price,
+            description: childProps.description,
+            url: childProps.url,
         }
     }
     let entry: Entry = convertEventToEntry();
+    const editEntry = () => {
+        console.log("woohoo");
+        setFormVisibility(true);
+        // <EventForm {...entry}/>;
+    }
+
     return(
         <div className="entry">
             <div className="entry-name"> {entry.name} </div>
@@ -194,16 +201,17 @@ function EventEntry(props: Event) {
                 <div className="entry-date">{entry.date}</div>
                 <div className="entry-time">{entry.startTime} - {entry.endTime}</div>
                 <div className="icons">
-                    <FaPen className="edit-icon"/>
+                    <FaPen className="edit-icon" onClick={editEntry}/>
                     <FaTrash className="delete-icon"/> 
                 </div>
-                
             </div>
         </div>
     )
 }
 
-export function ManagePanel() {
+let setFormVisibility: React.Dispatch<React.SetStateAction<boolean>>;
+export function ManagePanel(props: {setFormVisibility: React.Dispatch<React.SetStateAction<boolean>>}) {
+    setFormVisibility = props.setFormVisibility;
     console.log("begin mapping")
     return (
         <div className="manage-panel">

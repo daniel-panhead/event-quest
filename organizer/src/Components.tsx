@@ -1,5 +1,7 @@
-import React, { SyntheticEvent, useState } from "react";
-import { writeData, hello} from './DataApi'
+import React, { SyntheticEvent, useEffect, useState } from "react";
+import { writeData, hello, getEvents, deleteData} from './DataApi';
+import { Event, Entry } from "./Types";
+import { FaTrash, FaPen } from 'react-icons/fa'
 
 export function Header() {
     return(
@@ -17,8 +19,9 @@ export function SideButton(props: SideButtonInfo) {
     )
 }
 
-export function EventForm() {
-    const initialState = {
+export function EventForm(props: Entry) {
+    const initialState = props === undefined ? {
+        id : null,
         name : "",
         address: "",
         date: "",
@@ -29,7 +32,7 @@ export function EventForm() {
         fees: 0.0,
         description: "",
         url: ""
-    }
+    } : props;
     const [formData, setFormData] = useState({
         ...initialState
     })
@@ -43,13 +46,14 @@ export function EventForm() {
 
     const convertToEvent = () => {
         return {
+            id: null,
             organizer : "Test Organizer",
             address: formData.address,
             title: formData.name,
             startDateTime: formData.date + "T" + formData.startTime + "-08:00",
             endDateTime: formData.date + "T" + formData.endTime + "-08:00",
             description: formData.description,
-            mustRegister: formData.registration.toLowerCase() == "yes",
+            mustRegister: formData.registration == "yes",
             price: formData.fees,
             type: formData.tags,
             url: formData.url
@@ -62,6 +66,7 @@ export function EventForm() {
             console.log(formData);
             writeData(convertToEvent());
             setFormError((prevData) => ({msg : null}));
+            setView(<ManagePanel setView={setView}/>)
         } else {
             console.log(formData);
             setFormError((prevData) => ({msg : "Cannot leave the field blank"}));
@@ -70,12 +75,18 @@ export function EventForm() {
 
     const checkFormData = () : boolean => {
         let isValid: boolean = true;
+        let count = 0;
         Object.values(formData).forEach((val: any) => {
+            count += 1;
             if ((typeof(val) === "string" && val === "") || (typeof(val) === "number" && val < 0)) {
                 isValid = false;
                 return;
             }
         })
+        if (count < 10) {
+            isValid = false;
+        }
+        console.log(isValid);
         return isValid;
     }
 
@@ -152,5 +163,69 @@ export function EventForm() {
                 <button className="discard-button" onClick={handleDiscard}>Discard</button>
             </div>
         </form>
+    )
+}
+
+function EventEntry(childProps: Event) {
+    const convertEventToEntry = (): Entry => {
+        let dateAndStart = new Date(childProps.startDateTime);
+        let dateAndEnd = new Date(childProps.endDateTime);
+        return {
+            id: childProps.id,
+            name: childProps.title,
+            address: childProps.address,
+            date: dateAndStart.toDateString(),
+            startTime: dateAndStart.toLocaleTimeString(),
+            endTime: dateAndEnd.toLocaleTimeString(),
+            tags: childProps.type,
+            registration: childProps.mustRegister ? "yes" : "no",
+            fees: childProps.price,
+            description: childProps.description,
+            url: childProps.url,
+        }
+    }
+    let entry: Entry = convertEventToEntry();
+    const editEntry = () => {
+        console.log("woohoo");
+        setView(<EventForm {...entry}/>);
+    }
+    const deleteEntry = async () => {
+        console.log("deleteing");
+        await deleteData(childProps).
+        then((res) => {
+            refreshEvents(getEvents());
+            window.location.reload();
+            console.log("done deleting");
+        });
+    }
+
+    return(
+        <div className="entry">
+            <div className="entry-name"> {entry.name} </div>
+            <div className="entry-datetime">
+                <div className="entry-date">{entry.date}</div>
+                <div className="entry-time">{entry.startTime} - {entry.endTime}</div>
+                <div className="icons">
+                    <FaPen className="edit-icon" onClick={editEntry}/>
+                    <FaTrash className="delete-icon" onClick={deleteEntry}/> 
+                </div>
+            </div>
+        </div>
+    )
+}
+
+let setView: React.Dispatch<React.SetStateAction<JSX.Element>>;
+let refreshEvents: React.Dispatch<React.SetStateAction<Event[]>>;
+
+export function ManagePanel(props: {setView: React.Dispatch<React.SetStateAction<JSX.Element>>}) {
+    const [events, setEvents] = useState(getEvents())
+  
+    
+    refreshEvents = setEvents;
+    setView = props.setView;
+    return (
+        <div className="manage-panel">
+            {events.map(event => <EventEntry {...event}/>)}
+        </div>
     )
 }

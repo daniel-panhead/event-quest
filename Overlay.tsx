@@ -1,16 +1,22 @@
-import {Modal, Pressable, StyleSheet, Text, View} from 'react-native';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
 import React, {useState} from 'react';
+import {ParsedEvent} from './types';
 
-const Overlay = () => {
-  const [modalVisible, setModalVisible] = useState(true);
+type Props = {
+  event: ParsedEvent;
+  setSelectedEvent: React.Dispatch<
+    React.SetStateAction<ParsedEvent | undefined>
+  >;
+};
 
+const Overlay = ({event, setSelectedEvent}: Props) => {
   return (
     <View style={styles.alignView}>
       <View style={styles.modalView}>
-        <Text style={styles.modalText}>Hello World!</Text>
+        <Text style={styles.modalText}>{event.title}</Text>
         <Pressable
           style={[styles.button, styles.buttonClose]}
-          onPress={() => setModalVisible(!modalVisible)}>
+          onPress={() => setSelectedEvent(undefined)}>
           <Text style={styles.textStyle}>Hide Modal</Text>
         </Pressable>
       </View>

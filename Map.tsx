@@ -16,6 +16,8 @@ const initialRegion = {
 
 const Map = (props: Props) => {
   const [events, setEvents] = useState<ParsedEvent[]>();
+  const [selectedEvent, setSelectedEvent] = useState<ParsedEvent | undefined>();
+
   useEffect(() => {
     async function fetchData() {
       const response = await getEvents();
@@ -26,6 +28,7 @@ const Map = (props: Props) => {
 
   const handleMarkerPress = (e: MarkerPressEvent) => {
     console.log(e.nativeEvent);
+    setSelectedEvent(events[parseInt(e.nativeEvent.id, 10)]);
   };
 
   return (
@@ -46,7 +49,12 @@ const Map = (props: Props) => {
               })}
             </MapView>
           </View>
-          <Overlay />
+          {selectedEvent && (
+            <Overlay
+              event={selectedEvent}
+              setSelectedEvent={setSelectedEvent}
+            />
+          )}
         </>
       )}
     </>

@@ -9,6 +9,7 @@ data.ref().on('value', (snapshot) => {
     snapshot.child("events").forEach( (childSnap) => {
         let event: Event = childSnap.val(); 
         events.push(event);
+        printData();
         return true;
     })
 })

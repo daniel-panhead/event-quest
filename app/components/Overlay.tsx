@@ -1,6 +1,8 @@
 import {Pressable, Text, View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {ParsedEvent} from '../types';
+import EventCard from './EventCard';
+import {XMarkIcon} from 'react-native-heroicons/solid';
 
 type Props = {
   event: ParsedEvent;
@@ -10,18 +12,22 @@ type Props = {
 };
 
 const Overlay = ({event, setSelectedEvent}: Props) => {
+  const [showDetails, setShowDetails] = useState(true);
+
   return (
-    <View className="absolute bottom-0 w-full items-center">
-      <View className="mb-2 mx-2 bg-white rounded-lg p-6 w-[90%]">
-        <View>
-          <Text className="text-black font-bold text-lg">{event.title}</Text>
-          <Text className="text-black">{event.organizer}</Text>
-        </View>
+    <View className="absolute w-full h-full items-center justify-center flex-1">
+      <View className="w-[90%] h-[90%] bg-cream items-center rounded-lg shadow-md shadow-black">
+        <Text className="text-black text-2xl font-bold mt-4">
+          Cool Location
+        </Text>
         <Pressable
-          className="rounded-xl p-4 bg-black"
+          className="absolute right-0 mt-4 mr-4 pt-2"
           onPress={() => setSelectedEvent(undefined)}>
-          <Text className="text-white font-bold text-center">Hide Modal</Text>
+          <XMarkIcon color="black" />
         </Pressable>
+        {showDetails && (
+          <EventCard event={event} setShowDetails={setShowDetails} />
+        )}
       </View>
     </View>
   );

@@ -1,6 +1,6 @@
-import React, { SyntheticEvent, useState } from "react";
-import { writeData, hello, getEvents} from './DataApi';
-import { Event } from "./Types";
+import React, { SyntheticEvent, useEffect, useState } from "react";
+import { writeData, hello, getEvents, deleteData} from './DataApi';
+import { Event, Entry } from "./Types";
 import { FaTrash, FaPen } from 'react-icons/fa'
 
 export function Header() {
@@ -21,6 +21,7 @@ export function SideButton(props: SideButtonInfo) {
 
 export function EventForm(props: Entry) {
     const initialState = props === undefined ? {
+        id : null,
         name : "",
         address: "",
         date: "",
@@ -45,13 +46,14 @@ export function EventForm(props: Entry) {
 
     const convertToEvent = () => {
         return {
+            id: null,
             organizer : "Test Organizer",
             address: formData.address,
             title: formData.name,
             startDateTime: formData.date + "T" + formData.startTime + "-08:00",
             endDateTime: formData.date + "T" + formData.endTime + "-08:00",
             description: formData.description,
-            mustRegister: formData.registration.toLowerCase() == "yes",
+            mustRegister: formData.registration == "yes",
             price: formData.fees,
             type: formData.tags,
             url: formData.url
@@ -64,6 +66,7 @@ export function EventForm(props: Entry) {
             console.log(formData);
             writeData(convertToEvent());
             setFormError((prevData) => ({msg : null}));
+            setView(<ManagePanel setView={setView}/>)
         } else {
             console.log(formData);
             setFormError((prevData) => ({msg : "Cannot leave the field blank"}));
@@ -73,11 +76,12 @@ export function EventForm(props: Entry) {
     const checkFormData = () : boolean => {
         let isValid: boolean = true;
         Object.values(formData).forEach((val: any) => {
-            if ((typeof(val) === "string" && val === "") || (typeof(val) === "number" && val < 0)) {
+            if ((typeof val == "string" && val === "") || (typeof(val) === "number" && val < 0)) {
                 isValid = false;
                 return;
             }
         })
+        console.log(isValid);
         return isValid;
     }
 
@@ -157,24 +161,12 @@ export function EventForm(props: Entry) {
     )
 }
 
-type Entry = {
-    name?: String,
-    address?: String,
-    date?: String,
-    startTime?: String,
-    endTime?: String,
-    tags?: String,
-    registration?: String,
-    fees?: number,
-    description?: String,
-    url?: String
-}
-
 function EventEntry(childProps: Event) {
     const convertEventToEntry = (): Entry => {
         let dateAndStart = new Date(childProps.startDateTime);
         let dateAndEnd = new Date(childProps.endDateTime);
         return {
+            id: childProps.id,
             name: childProps.title,
             address: childProps.address,
             date: dateAndStart.toDateString(),
@@ -192,6 +184,16 @@ function EventEntry(childProps: Event) {
         console.log("woohoo");
         setView(<EventForm {...entry}/>);
     }
+    const deleteEntry = async () => {
+        console.log("deleteing");
+        await deleteData(childProps).
+        then((res) => {
+
+            refreshEvents(getEvents());
+            window.location.reload();
+            console.log("done deleting");
+        });
+    }
 
     return(
         <div className="entry">
@@ -201,7 +203,7 @@ function EventEntry(childProps: Event) {
                 <div className="entry-time">{entry.startTime} - {entry.endTime}</div>
                 <div className="icons">
                     <FaPen className="edit-icon" onClick={editEntry}/>
-                    <FaTrash className="delete-icon"/> 
+                    <FaTrash className="delete-icon" onClick={deleteEntry}/> 
                 </div>
             </div>
         </div>
@@ -209,12 +211,17 @@ function EventEntry(childProps: Event) {
 }
 
 let setView: React.Dispatch<React.SetStateAction<JSX.Element>>;
+let refreshEvents: React.Dispatch<React.SetStateAction<Event[]>>;
+
 export function ManagePanel(props: {setView: React.Dispatch<React.SetStateAction<JSX.Element>>}) {
+    const [events, setEvents] = useState(getEvents())
+  
+    
+    refreshEvents = setEvents;
     setView = props.setView;
-    console.log("begin mapping")
     return (
         <div className="manage-panel">
-            {getEvents().map(event => <EventEntry {...event}/>)}
+            {events.map(event => <EventEntry {...event}/>)}
         </div>
     )
 }

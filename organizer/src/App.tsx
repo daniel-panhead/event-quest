@@ -4,7 +4,7 @@ import {EventForm, Header, ManagePanel, SideButton} from './Components'
 
 function App() {
   const [view, setView] = useState(<EventForm/>);
-
+  
   return (
     <div className='general'>
       <Header/>

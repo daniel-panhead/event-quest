@@ -1,4 +1,5 @@
 export type Event = {
+  id?: string,
   organizer: string;
   address: string;
   title: string;
@@ -10,3 +11,17 @@ export type Event = {
   type: string;
   url: string;
 };
+
+export type Entry = {
+    id?: string,
+    name: string,
+    address: string,
+    date: string,
+    startTime: string,
+    endTime: string,
+    tags: string,
+    registration: string,
+    fees: number,
+    description: string,
+    url: string
+}

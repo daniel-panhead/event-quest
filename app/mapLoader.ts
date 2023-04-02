@@ -7,3 +7,8 @@ export const geocode = async (address: string) => {
   const geoResponse = await GeoCoder.from(address);
   return geoResponse.results[0].geometry.location;
 };
+
+export const revGeoCode = async (lat, lng) => {
+  const geoResponse = await GeoCoder.from(lat, lng);
+  return geoResponse.results[0].
+}

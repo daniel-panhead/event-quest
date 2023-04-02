@@ -65,3 +65,4 @@ yarn-error.log
 # VSCode
 .vscode/
 .env
+/android/app/google-services.json

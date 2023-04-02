@@ -7,7 +7,7 @@
 
 import React, {useEffect} from 'react';
 import { getEvents, printData } from './DataApi';
-import Map from './Map';
+import Map from './components/Map';
 import type {PropsWithChildren} from 'react';
 import {
   SafeAreaView,

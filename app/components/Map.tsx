@@ -1,8 +1,8 @@
 import {StyleProp, StyleSheet, View, ViewStyle} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import MapView, {Marker, MarkerPressEvent} from 'react-native-maps';
-import type {ParsedEvent} from './types';
-import {getEvents} from './mockData';
+import type {ParsedEvent} from '../types';
+import {getEvents} from '../mockData';
 import Overlay from './Overlay';
 
 type Props = {};
@@ -35,7 +35,7 @@ const Map = (props: Props) => {
     <>
       {events && (
         <>
-          <View style={styles.container}>
+          <View className="flex-1 items-center justify-end">
             <MapView style={styles.map} initialRegion={initialRegion}>
               {events.map((event, i) => {
                 return (
@@ -64,12 +64,6 @@ const Map = (props: Props) => {
 export default Map;
 
 const styles = StyleSheet.create({
-  container: {
-    ...StyleSheet.absoluteFillObject,
-    flex: 1, //the container will fill the whole screen.
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
   map: {
     ...StyleSheet.absoluteFillObject,
   },

@@ -17,7 +17,7 @@ export function SideButton(props: SideButtonInfo) {
 }
 
 export function EventForm() {
-    const [formData, setFormData] = useState({
+    const initialState = {
         name : "",
         address: "",
         date: "",
@@ -28,6 +28,9 @@ export function EventForm() {
         fees: 0.0,
         description: "",
         url: ""
+    }
+    const [formData, setFormData] = useState({
+        ...initialState
     })
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -38,6 +41,10 @@ export function EventForm() {
     const handleSubmit = (event: any) => {
         event.preventDefault();
         console.log(formData);
+    }
+
+    const handleDiscard = () => {
+        setFormData(initialState);
     }
 
     return(
@@ -102,7 +109,7 @@ export function EventForm() {
 
             <div className="button-field">
                 <button className="submit-button" onClick={handleSubmit}>Submit</button>
-                <button className="discard-button" onClick={handleSubmit}>Discard</button>
+                <button className="discard-button" onClick={handleDiscard}>Discard</button>
             </div>
         </form>
     )

@@ -2,6 +2,7 @@ import {StyleSheet, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import MapView, {Marker, MarkerPressEvent} from 'react-native-maps';
 import type {Place} from '../types';
+import {dateToString} from '../data';
 import {getEvents} from '../mockData';
 import Overlay from './Overlay';
 import {getPlaceName} from '../mapLoader';
@@ -18,12 +19,6 @@ const initialRegion = {
 const Map = (props: Props) => {
   const [places, setPlaces] = useState<Place>();
   const [selectedPlace, setSelectedPlace] = useState<Place | undefined>();
-
-  const dateToString = (date: Date) => {
-    return (
-      date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate()
-    );
-  };
 
   useEffect(() => {
     async function fetchData() {

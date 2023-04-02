@@ -1,6 +1,8 @@
 import {Pressable, ScrollView, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {ParsedEvent, Place} from '../types';
+import {dateToString} from '../data';
+import {colorOptions} from '../data';
 import {
   XMarkIcon,
   ChevronLeftIcon,
@@ -16,12 +18,6 @@ type Props = {
 const Overlay = ({place, setSelectedPlace}: Props) => {
   const location = Object.keys(place)[0];
   const [selectedDate, setSelectedDate] = useState<Date>(new Date(Date.now()));
-
-  const dateToString = (date: Date) => {
-    return (
-      date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate()
-    );
-  };
 
   return (
     <View className="absolute w-full h-full items-center justify-center flex-1">
@@ -70,7 +66,7 @@ const Overlay = ({place, setSelectedPlace}: Props) => {
             place[location][dateToString(selectedDate)].map((event, i) => {
               return (
                 <View className="flex-1 items-center w-full" key={i}>
-                  <EventCardEntry event={event} />
+                  <EventCardEntry event={event} i={i % colorOptions.length} />
                 </View>
               );
             })}

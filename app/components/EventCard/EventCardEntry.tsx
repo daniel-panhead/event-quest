@@ -6,18 +6,23 @@ import {ParsedEvent} from '../../types';
 
 type Props = {
   event: ParsedEvent;
+  i: number;
 };
 
-const EventCardEntry = ({event}: Props) => {
+const EventCardEntry = ({event, i}: Props) => {
   const [showDetails, setShowDetails] = useState(false);
   return (
     <View className="flex-1 items-center w-full">
       {!showDetails && (
-        <CompactEventCard event={event} setShowDetails={setShowDetails} />
+        <CompactEventCard event={event} i={i} setShowDetails={setShowDetails} />
       )}
       {showDetails && (
         <View className="items-center justify-center">
-          <DetailedEventCard event={event} setShowDetails={setShowDetails} />
+          <DetailedEventCard
+            event={event}
+            i={i}
+            setShowDetails={setShowDetails}
+          />
         </View>
       )}
     </View>

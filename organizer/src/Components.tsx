@@ -32,6 +32,7 @@ export function EventForm() {
     const [formData, setFormData] = useState({
         ...initialState
     })
+    const [formError, setFormError] = useState<{msg: string | null}>({msg: null})
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
         const {name, value} = event.target;
@@ -40,7 +41,23 @@ export function EventForm() {
 
     const handleSubmit = (event: any) => {
         event.preventDefault();
-        console.log(formData);
+        if (checkFormData()) {
+            console.log(formData);
+            setFormError((prevData) => ({msg : null}));
+        } else {
+            setFormError((prevData) => ({msg : "Cannot leave the field blank"}));
+        }
+    }
+
+    const checkFormData = () : boolean => {
+        let isValid: boolean = true;
+        Object.values(formData).forEach((val: any) => {
+            if ((typeof(val) === "string" && val === "") || (typeof(val) === "number" && val < 0)) {
+                isValid = false;
+                return;
+            }
+        })
+        return isValid;
     }
 
     const handleDiscard = () => {
@@ -62,15 +79,15 @@ export function EventForm() {
             <div className="date-time-field">
                 <div className="date-field">
                     <label htmlFor="date">Date:</label> 
-                    <input type="text" id="date" name="date" value={formData.date} onChange={handleChange}/>
+                    <input type="date" id="date" name="date" value={formData.date} onChange={handleChange}/>
                 </div> 
 
                 <div className="time-field">
                     <label htmlFor="time">Time:</label> 
                     <div id="time">
-                        <input type="text" id="startTime" name="startTime" value={formData.startTime} onChange={handleChange}/>
+                        <input type="time" id="startTime" name="startTime" value={formData.startTime} onChange={handleChange}/>
                         -
-                        <input type="text" id="endTime" name="endTime" value={formData.endTime} onChange={handleChange}/>
+                        <input type="time" id="endTime" name="endTime" value={formData.endTime} onChange={handleChange}/>
                     </div>
                 </div>
             </div>
@@ -93,7 +110,7 @@ export function EventForm() {
 
             <div className="fees-field">
                 <label htmlFor="fees">Fees:</label>
-                <input type="text" id="fees" name="fees" value={formData.fees} onChange={handleChange}/>
+                <input type="number" min="0" id="fees" name="fees" value={formData.fees} onChange={handleChange}/>
                 CAD
             </div>
 
@@ -108,6 +125,7 @@ export function EventForm() {
             </div>
 
             <div className="button-field">
+                {formError.msg && <div className="error-message"> {formError.msg} </div>}
                 <button className="submit-button" onClick={handleSubmit}>Submit</button>
                 <button className="discard-button" onClick={handleDiscard}>Discard</button>
             </div>

@@ -1,10 +1,10 @@
 import {StyleSheet, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import MapView, {Marker, MarkerPressEvent} from 'react-native-maps';
-import type {ParsedEvent} from '../types';
+import type {Place} from '../types';
 import {getEvents} from '../mockData';
 import Overlay from './Overlay';
-import {revGeoCode} from '../mapLoader';
+import {revGeoCode, getPlaceName} from '../mapLoader';
 
 type Props = {};
 
@@ -16,40 +16,49 @@ const initialRegion = {
 };
 
 const Map = (props: Props) => {
-  const [events, setEvents] = useState<ParsedEvent[]>();
-  const [selectedEvent, setSelectedEvent] = useState<ParsedEvent | undefined>();
+  const [places, setPlaces] = useState<Place>();
+  const [selectedPlace, setSelectedPlace] = useState<Place | undefined>();
 
   useEffect(() => {
     async function fetchData() {
       const response = await getEvents();
-      setEvents(response);
+
+      let tmpPlaces: Place = {};
+      for (let event of response) {
+        const place = await getPlaceName(event.coords, event.address);
+        if (tmpPlaces.hasOwnProperty(place)) {
+          tmpPlaces[place].push(event);
+        } else {
+          tmpPlaces[place] = [event];
+        }
+      }
+      Object.keys(tmpPlaces).forEach(place => {
+        tmpPlaces[place] = tmpPlaces[place].sort((a, b) => {
+          return a.startDateTime.valueOf() - b.startDateTime.valueOf();
+        });
+      });
+      setPlaces(tmpPlaces);
     }
     fetchData();
   }, []);
 
   const handleMarkerPress = (e: MarkerPressEvent) => {
-    setSelectedEvent(events[parseInt(e.nativeEvent.id, 10)]);
+    let retObj: Place = {};
+    retObj[e.nativeEvent.id] = places[e.nativeEvent.id];
+    setSelectedPlace(retObj);
   };
-
-  useEffect(() => {
-    if (selectedEvent) {
-      revGeoCode(selectedEvent.coords).then(res => {
-        console.log(res);
-      });
-    }
-  }, [selectedEvent]);
 
   return (
     <>
-      {events && (
+      {places && (
         <>
           <View className="flex-1 items-center justify-end">
             <MapView style={styles.map} initialRegion={initialRegion}>
-              {events.map((event, i) => {
+              {Object.keys(places).map((place: string, i) => {
                 return (
                   <Marker
-                    coordinate={event.coords}
-                    identifier={i.toString()}
+                    coordinate={places[place][0].coords}
+                    identifier={place}
                     key={i}
                     onPress={handleMarkerPress}
                   />
@@ -57,10 +66,10 @@ const Map = (props: Props) => {
               })}
             </MapView>
           </View>
-          {selectedEvent && (
+          {selectedPlace && (
             <Overlay
-              event={selectedEvent}
-              setSelectedEvent={setSelectedEvent}
+              place={selectedPlace}
+              setSelectedPlace={setSelectedPlace}
             />
           )}
         </>

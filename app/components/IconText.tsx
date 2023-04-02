@@ -11,9 +11,9 @@ type Props = {
 
 const IconText = ({color = 'white', text, size = '20', Icon, style}: Props) => {
   return (
-    <View className="my-2 flex flex-row items-center gap-2" style={style}>
+    <View className="my-2 flex flex-row items-center" style={style}>
       <Icon color={color} size={size} />
-      <Text className={'text-' + color}>{text}</Text>
+      <Text className={'ml-2 text-' + color}>{text}</Text>
     </View>
   );
 };

@@ -4,6 +4,7 @@ import MapView, {Marker, MarkerPressEvent} from 'react-native-maps';
 import type {ParsedEvent} from '../types';
 import {getEvents} from '../mockData';
 import Overlay from './Overlay';
+import {revGeoCode} from '../mapLoader';
 
 type Props = {};
 
@@ -27,9 +28,16 @@ const Map = (props: Props) => {
   }, []);
 
   const handleMarkerPress = (e: MarkerPressEvent) => {
-    console.log(e.nativeEvent);
     setSelectedEvent(events[parseInt(e.nativeEvent.id, 10)]);
   };
+
+  useEffect(() => {
+    if (selectedEvent) {
+      revGeoCode(selectedEvent.coords).then(res => {
+        console.log(res);
+      });
+    }
+  }, [selectedEvent]);
 
   return (
     <>

@@ -2,16 +2,16 @@ import {geocode} from './mapLoader';
 import {firebase} from '@react-native-firebase/database';
 import {Event, ParsedEvent} from './types';
 
-export const getEvents = async (): Promise<ParsedEvent[]> => {
-  const data = firebase.database();
-  let events: Event[] = [];
-  const snapshot = await data.ref().once('value');
+const data = firebase.database();
+let events: Event[] = [];
 
+export const getEvents = async (): Promise<ParsedEvent[]> => {
+  const snapshot = await data.ref().once('value');
   snapshot.child('events').forEach(childSnap => {
     events.push(childSnap.val());
-    return true;
+    return undefined;
   });
-  console.log(events);
+
   const parsedEvents: ParsedEvent[] = await Promise.all(
     events.map(async event => {
       const coords = await geocode(event.address);

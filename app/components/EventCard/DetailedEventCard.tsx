@@ -26,14 +26,12 @@ const DetailedEventCard = ({
   return (
     <View
       className={
-        'my-6 items-center ' +
-        colorOptions[i] +
-        ' rounded-lg px-4 pb-6 pt-3 w-full flex-1'
+        'my-6 items-center bg-yellow-600 rounded-lg px-4 pb-6 pt-3 w-full flex-1'
       }>
       <View className="flex-1 w-full">
         <Pressable onPress={() => setShowDetails(false)}>
           <View className="flex flex-row items-center">
-            <Text className="font-bold text-2xl grow text-white">
+            <Text className="font-bold text-2xl grow max-w-[90%] text-white">
               {event.title}
             </Text>
             <XMarkIcon color="white" />

@@ -26,3 +26,9 @@ export type ParsedEvent = {
   type: string;
   url: string;
 };
+
+export type Place = {
+  [key: string]: {
+    [key: string]: ParsedEvent[];
+  };
+};

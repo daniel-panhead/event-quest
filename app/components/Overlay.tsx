@@ -1,33 +1,76 @@
-import {Pressable, Text, View} from 'react-native';
-import React, {useState} from 'react';
-import {ParsedEvent} from '../types';
-import EventCard from './EventCard';
-import {XMarkIcon} from 'react-native-heroicons/solid';
+import {Pressable, ScrollView, Text, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {ParsedEvent, Place} from '../types';
+import {dateToString} from '../data';
+import {colorOptions} from '../data';
+import {
+  XMarkIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+} from 'react-native-heroicons/solid';
+import EventCardEntry from './EventCard/EventCardEntry';
 
 type Props = {
-  event: ParsedEvent;
-  setSelectedEvent: React.Dispatch<
-    React.SetStateAction<ParsedEvent | undefined>
-  >;
+  place: Place;
+  setSelectedPlace: React.Dispatch<React.SetStateAction<Place | undefined>>;
 };
 
-const Overlay = ({event, setSelectedEvent}: Props) => {
-  const [showDetails, setShowDetails] = useState(true);
+const Overlay = ({place, setSelectedPlace}: Props) => {
+  const location = Object.keys(place)[0];
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date(Date.now()));
 
   return (
     <View className="absolute w-full h-full items-center justify-center flex-1">
       <View className="w-[90%] h-[90%] bg-cream items-center rounded-lg shadow-md shadow-black">
-        <Text className="text-black text-2xl font-bold mt-4">
-          Cool Location
+        <Text className="text-black text-2xl text-center font-bold py-4 px-10">
+          {location}
         </Text>
         <Pressable
           className="absolute right-0 mt-4 mr-4 pt-2"
-          onPress={() => setSelectedEvent(undefined)}>
+          onPress={() => setSelectedPlace(undefined)}>
           <XMarkIcon color="black" />
         </Pressable>
-        {showDetails && (
-          <EventCard event={event} setShowDetails={setShowDetails} />
-        )}
+
+        <View className="my-2 flex flex-row items-center justify-center gap-2">
+          <Pressable
+            className="p-2"
+            onPress={() =>
+              setSelectedDate(
+                new Date(selectedDate.setDate(selectedDate.getDate() - 1)),
+              )
+            }>
+            <ChevronLeftIcon color="black" />
+          </Pressable>
+          <View className="bg-peach p-2 rounded-md">
+            <Text className="text-black font-bold">
+              {dateToString(selectedDate)}
+            </Text>
+          </View>
+          <Pressable
+            className="p-2"
+            onPress={() =>
+              setSelectedDate(
+                new Date(selectedDate.setDate(selectedDate.getDate() + 1)),
+              )
+            }>
+            <ChevronRightIcon color="black" />
+          </Pressable>
+        </View>
+        <ScrollView className="w-full">
+          {!place[location][dateToString(selectedDate)] && (
+            <Text className="my-2 text-slate-800 text-center">
+              No events on this day
+            </Text>
+          )}
+          {place[location][dateToString(selectedDate)] &&
+            place[location][dateToString(selectedDate)].map((event, i) => {
+              return (
+                <View className="flex-1 items-center w-full" key={i}>
+                  <EventCardEntry event={event} i={i % colorOptions.length} />
+                </View>
+              );
+            })}
+        </ScrollView>
       </View>
     </View>
   );

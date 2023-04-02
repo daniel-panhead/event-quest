@@ -1,18 +1,20 @@
+import { useState } from 'react'
 import './App.css'
-import {EventForm, Header, SideButton} from './Components'
+import {EventForm, Header, ManagePanel, SideButton} from './Components'
 
 function App() {
+  const [view, setView] = useState(<EventForm/>);
+  
   return (
     <div className='general'>
       <Header/>
       <div className='main-view'>
         <div className='sidebar'>
-          <SideButton name="Add Event" handler={() => {console.log("Adding Event")}}/>
-          <SideButton name="Edit Event" handler={() => {console.log("Edditng Event")}}/>
-          <SideButton name="Manage Event" handler={() => {console.log("Managing Event")}}/>
+          <SideButton name="Add Event" handler={() => {setView(<EventForm/>)}}/>
+          <SideButton name="Manage Event" handler={() => {setView(<ManagePanel setView={setView}/>)}}/>
         </div>
         <div className='editor'>
-          <EventForm/>
+          {view}
         </div>
       </div>
     </div>

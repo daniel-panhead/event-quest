@@ -12,6 +12,16 @@ const events: Event[] = [
     price: 10,
     type: 'Full Day',
   },
+  {
+    organizer: 'Organizer Guys',
+    address: '2052 Main Mall, Vancouver, BC V6T 1Z2',
+    title: 'Fun Event',
+    dateTime: '2023-04-01T09:30:00-08:00',
+    description: 'Fun time',
+    mustRegister: false,
+    price: 10,
+    type: 'Full Day',
+  },
 ];
 
 export const getEvents: () => Promise<ParsedEvent[]> = async () => {

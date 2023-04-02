@@ -1,8 +1,9 @@
-import {StyleSheet, View} from 'react-native';
+import {StyleProp, StyleSheet, View, ViewStyle} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import MapView, {Marker} from 'react-native-maps';
-import type {Event, ParsedEvent} from './types';
+import MapView, {Marker, MarkerPressEvent} from 'react-native-maps';
+import type {ParsedEvent} from './types';
 import {getEvents} from './mockData';
+import Overlay from './Overlay';
 
 type Props = {};
 
@@ -15,6 +16,8 @@ const initialRegion = {
 
 const Map = (props: Props) => {
   const [events, setEvents] = useState<ParsedEvent[]>();
+  const [selectedEvent, setSelectedEvent] = useState<ParsedEvent | undefined>();
+
   useEffect(() => {
     async function fetchData() {
       const response = await getEvents();
@@ -23,16 +26,38 @@ const Map = (props: Props) => {
     fetchData();
   }, []);
 
+  const handleMarkerPress = (e: MarkerPressEvent) => {
+    console.log(e.nativeEvent);
+    setSelectedEvent(events[parseInt(e.nativeEvent.id, 10)]);
+  };
+
   return (
-    <View style={styles.container}>
+    <>
       {events && (
-        <MapView style={styles.map} initialRegion={initialRegion}>
-          {events.map((event, i) => {
-            return <Marker coordinate={event.coords} key={i} />;
-          })}
-        </MapView>
+        <>
+          <View style={styles.container}>
+            <MapView style={styles.map} initialRegion={initialRegion}>
+              {events.map((event, i) => {
+                return (
+                  <Marker
+                    coordinate={event.coords}
+                    identifier={i.toString()}
+                    key={i}
+                    onPress={handleMarkerPress}
+                  />
+                );
+              })}
+            </MapView>
+          </View>
+          {selectedEvent && (
+            <Overlay
+              event={selectedEvent}
+              setSelectedEvent={setSelectedEvent}
+            />
+          )}
+        </>
       )}
-    </View>
+    </>
   );
 };
 

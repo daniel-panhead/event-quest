@@ -65,6 +65,10 @@ function printData(): void {
     })
 }
 
+export function getEvents(): Event[] {
+    return events;
+}
+
 export function writeData(data: Event) {
     const newEventRef = push(eventRef)
     set(newEventRef, data);

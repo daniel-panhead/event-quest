@@ -157,3 +157,62 @@
   color: red;
   padding-right: 0.5em;
 }
+
+.manage-panel {
+  align-items: left;
+  display: flex;
+  flex-direction: column;
+  min-height: 80%;
+  max-height: 80%;
+  background-color: #D9D9D9;
+  margin: 3% 6% 3% 3%;
+  overflow-y: scroll;
+}
+
+.entry {
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+  margin: 1% 5% 1% 5%;
+  padding: 1em 0 1em 0;
+  border-radius: 0.4em;
+}
+
+.entry-name {
+  min-width: 30%;
+  max-width: 10em;
+
+  flex-grow: 1;
+  overflow-wrap: normal; 
+  text-align: left;
+  padding-left: 0.5em;
+}
+
+.entry-datetime {
+  display: flex;  
+  width: 70%;
+  flex-direction: row;
+}
+
+.entry-date {
+  width: 50%;
+  flex-grow: 1;
+}
+
+.entry-time {
+  width: 30%;
+  flex-grow: 1;
+}
+
+.icons {
+  width: 20%;
+  margin-inline: 2em;
+}
+
+.delete-icon {
+  width: 50%;
+}
+
+.edit-icon {
+  width: 50%;
+}

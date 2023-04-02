@@ -1,5 +1,7 @@
 import React, { SyntheticEvent, useState } from "react";
-import { writeData, hello} from './DataApi'
+import { writeData, hello, getEvents} from './DataApi';
+import { Event } from "./Types";
+import { FaTrash, FaPen } from 'react-icons/fa'
 
 export function Header() {
     return(
@@ -17,7 +19,7 @@ export function SideButton(props: SideButtonInfo) {
     )
 }
 
-export function EventForm() {
+export function EventForm(props?: Entry) {
     const initialState = {
         name : "",
         address: "",
@@ -152,5 +154,60 @@ export function EventForm() {
                 <button className="discard-button" onClick={handleDiscard}>Discard</button>
             </div>
         </form>
+    )
+}
+
+type Entry = {
+    name : String,
+    address: String,
+    date: String,
+    startTime: String,
+    endTime: String,
+    tags: String,
+    registration: String,
+    fees: number,
+    description: String,
+    url: String
+}
+function EventEntry(props: Event) {
+    const convertEventToEntry = (): Entry => {
+        let dateAndStart = new Date(props.startDateTime);
+        let dateAndEnd = new Date(props.endDateTime);
+        return {
+            name: props.title,
+            address: props.address,
+            date: dateAndStart.toDateString(),
+            startTime: dateAndStart.toLocaleTimeString(),
+            endTime: dateAndEnd.toLocaleTimeString(),
+            tags: props.type,
+            registration: props.mustRegister ? "yes" : "no",
+            fees: props.price,
+            description: props.description,
+            url: props.url,
+        }
+    }
+    let entry: Entry = convertEventToEntry();
+    return(
+        <div className="entry">
+            <div className="entry-name"> {entry.name} </div>
+            <div className="entry-datetime">
+                <div className="entry-date">{entry.date}</div>
+                <div className="entry-time">{entry.startTime} - {entry.endTime}</div>
+                <div className="icons">
+                    <FaPen className="edit-icon"/>
+                    <FaTrash className="delete-icon"/> 
+                </div>
+                
+            </div>
+        </div>
+    )
+}
+
+export function ManagePanel() {
+    console.log("begin mapping")
+    return (
+        <div className="manage-panel">
+            {getEvents().map(event => <EventEntry {...event}/>)}
+        </div>
     )
 }

@@ -2,6 +2,7 @@ import {View, Text, Pressable, ScrollView, Linking} from 'react-native';
 import React from 'react';
 import IconText from '../IconText';
 import {ParsedEvent} from '../../types';
+import {colorOptions} from '../../data';
 import {
   MapPinIcon,
   CurrencyDollarIcon,
@@ -13,12 +14,22 @@ import {
 
 type Props = {
   event: ParsedEvent;
+  i: number;
   setShowDetails: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const DetailedEventCard = ({event, setShowDetails: setShowDetails}: Props) => {
+const DetailedEventCard = ({
+  event,
+  i,
+  setShowDetails: setShowDetails,
+}: Props) => {
   return (
-    <View className="my-6 items-center bg-yellow-600 rounded-lg px-4 pb-6 pt-3 w-full flex-1">
+    <View
+      className={
+        'my-6 items-center ' +
+        colorOptions[i] +
+        ' rounded-lg px-4 pb-6 pt-3 w-full flex-1'
+      }>
       <View className="flex-1">
         <Pressable onPress={() => setShowDetails(false)}>
           <View className="flex flex-row items-center">

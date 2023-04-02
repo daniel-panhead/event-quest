@@ -75,12 +75,17 @@ export function EventForm(props: Entry) {
 
     const checkFormData = () : boolean => {
         let isValid: boolean = true;
+        let count = 0;
         Object.values(formData).forEach((val: any) => {
-            if ((typeof val == "string" && val === "") || (typeof(val) === "number" && val < 0)) {
+            count += 1;
+            if ((typeof(val) === "string" && val === "") || (typeof(val) === "number" && val < 0)) {
                 isValid = false;
                 return;
             }
         })
+        if (count < 10) {
+            isValid = false;
+        }
         console.log(isValid);
         return isValid;
     }
@@ -188,7 +193,6 @@ function EventEntry(childProps: Event) {
         console.log("deleteing");
         await deleteData(childProps).
         then((res) => {
-
             refreshEvents(getEvents());
             window.location.reload();
             console.log("done deleting");

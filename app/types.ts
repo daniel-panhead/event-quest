@@ -28,5 +28,7 @@ export type ParsedEvent = {
 };
 
 export type Place = {
-  [key: string]: ParsedEvent[];
+  [key: string]: {
+    [key: string]: ParsedEvent[];
+  };
 };

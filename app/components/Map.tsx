@@ -4,7 +4,7 @@ import MapView, {Marker, MarkerPressEvent} from 'react-native-maps';
 import type {Place} from '../types';
 import {getEvents} from '../mockData';
 import Overlay from './Overlay';
-import {revGeoCode, getPlaceName} from '../mapLoader';
+import {getPlaceName} from '../mapLoader';
 
 type Props = {};
 
@@ -19,6 +19,12 @@ const Map = (props: Props) => {
   const [places, setPlaces] = useState<Place>();
   const [selectedPlace, setSelectedPlace] = useState<Place | undefined>();
 
+  const dateToString = (date: Date) => {
+    return (
+      date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate()
+    );
+  };
+
   useEffect(() => {
     async function fetchData() {
       const response = await getEvents();
@@ -26,19 +32,28 @@ const Map = (props: Props) => {
       let tmpPlaces: Place = {};
       for (let event of response) {
         const place = await getPlaceName(event.coords, event.address);
+        const date = dateToString(event.startDateTime);
         if (tmpPlaces.hasOwnProperty(place)) {
-          tmpPlaces[place].push(event);
+          if (tmpPlaces[place].hasOwnProperty(date)) {
+            tmpPlaces[place][date].push(event);
+          } else {
+            tmpPlaces[place][date] = [event];
+          }
         } else {
-          tmpPlaces[place] = [event];
+          tmpPlaces[place] = {};
+          tmpPlaces[place][date] = [event];
         }
       }
       Object.keys(tmpPlaces).forEach(place => {
-        tmpPlaces[place] = tmpPlaces[place].sort((a, b) => {
-          return a.startDateTime.valueOf() - b.startDateTime.valueOf();
+        Object.keys(tmpPlaces[place]).forEach(day => {
+          tmpPlaces[place][day] = tmpPlaces[place][day].sort((a, b) => {
+            return a.startDateTime.valueOf() - b.startDateTime.valueOf();
+          });
         });
       });
       setPlaces(tmpPlaces);
     }
+
     fetchData();
   }, []);
 
@@ -57,7 +72,7 @@ const Map = (props: Props) => {
               {Object.keys(places).map((place: string, i) => {
                 return (
                   <Marker
-                    coordinate={places[place][0].coords}
+                    coordinate={Object.values(places[place])[0][0].coords}
                     identifier={place}
                     key={i}
                     onPress={handleMarkerPress}

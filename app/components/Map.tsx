@@ -1,4 +1,4 @@
-import {StyleProp, StyleSheet, View, ViewStyle} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import MapView, {Marker, MarkerPressEvent} from 'react-native-maps';
 import type {ParsedEvent} from '../types';

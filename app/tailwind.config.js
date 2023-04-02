@@ -8,6 +8,7 @@ module.exports = {
     extend: {
       colors: {
         'cream': '#F9F3E1',
+        'peach': '#FFE2E2',
       }
     },
   },

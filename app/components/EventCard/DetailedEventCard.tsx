@@ -29,7 +29,6 @@ const DetailedEventCard = ({event, setShowDetails: setShowDetails}: Props) => {
           </View>
         </Pressable>
         <Text className="mb-2">{event.organizer}</Text>
-
         <IconText text={event.address} Icon={MapPinIcon} />
         <IconText
           text={'$' + event.price.toString()}
@@ -43,13 +42,10 @@ const DetailedEventCard = ({event, setShowDetails: setShowDetails}: Props) => {
           }
           Icon={CalendarDaysIcon}
         />
-
         <Text className="text-md text-white font-bold">Description</Text>
-
         <ScrollView showsVerticalScrollIndicator>
           <Text className="text-white">{event.description}</Text>
         </ScrollView>
-
         <Pressable onPress={() => Linking.openURL(event.url)} className="m-4">
           <IconText
             className="justify-center"
@@ -59,7 +55,6 @@ const DetailedEventCard = ({event, setShowDetails: setShowDetails}: Props) => {
             size="28"
           />
         </Pressable>
-
         <Pressable className="flex-1 justify-center items-center">
           <View className="w-[45%] px-2 py-0.5 rounded-lg bg-slate-900">
             <IconText

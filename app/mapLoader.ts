@@ -20,12 +20,6 @@ export const getPlaceName = async (
   latlng: LatLng,
   keyword: string,
 ): Promise<string> => {
-  // const res = await fetch(
-  //   'https://maps.googleapis.com/maps/api/place/findplacefromtext/json?fields=name&input=' +
-  //     encodeURI(address) +
-  //     '&inputtype=textquery&key=' +
-  //     apiKey,
-  // );
   const res = await fetch(
     'https://maps.googleapis.com/maps/api/place/nearbysearch/json?keyword=' +
       encodeURI(keyword) +
